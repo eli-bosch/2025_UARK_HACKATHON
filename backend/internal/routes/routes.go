@@ -6,5 +6,5 @@ import (
 )
 
 var TestRoutes = func(router *mux.Router) {
-	router.HandleFunc("/test/{content}", controller.TestConnection).Methods("PUT")
+	router.HandleFunc("/test", controller.TestConnection).Methods("POST")
 }

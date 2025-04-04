@@ -12,7 +12,7 @@ import (
 func main() {
 	r := mux.NewRouter()
 	routes.TestRoutes(r)
-	http.Handle("/", r)
+	
 	fmt.Println("server listening...")
 	log.Fatal(http.ListenAndServe("localhost:9010", r))
 }

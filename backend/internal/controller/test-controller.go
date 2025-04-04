@@ -2,15 +2,22 @@ package controller
 
 import (
 	"fmt"
+	"io"
 	"net/http"
-
-	"github.com/gorilla/mux"
 )
 
 func TestConnection(w http.ResponseWriter, r *http.Request) {
-	vars := mux.Vars(r)
-	contentTitle := vars["content"]
+	body, err := io.ReadAll(r.Body)
+	if err != nil {
+		http.Error(w, "Couldn't read body", http.StatusBadRequest)
+		return
+	}
 
-	fmt.Println(contentTitle)
+	content := string(body)
+	fmt.Println("Received from frontend: ", content)
 
+	// respond to client
+	w.Header().Set("Access-Control-ALlow-Origin","*")
+	w.WriteHeader(http.StatusOK)
+	w.Write([]byte("Received: " + content))
 }

@@ -1,23 +1,31 @@
-import logo from './logo.svg';
 import './App.css';
 
 function App() {
+
+  const sendPostRequest = async () => {
+    try {
+        const res = await fetch("http://localhost:9010/test", {
+          method: "POST",
+          headers: {
+            "Content-Type": "text/plain",
+          },
+          body: "hi",
+        });
+
+        if (!res.ok) throw new Error('Network response was not ok');
+
+        const text = await res.text();
+        alert(text);
+      } catch (error) {
+        console.error('Error during fetch:', error)
+      }
+    };
+      
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>Go POST Test</h1>
+      <button onClick={sendPostRequest}>SEND POST</button>
     </div>
   );
 }
