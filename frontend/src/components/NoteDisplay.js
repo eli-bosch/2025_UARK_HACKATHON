@@ -1,21 +1,26 @@
 import NoteCard from "./NoteCard";
 
-function NoteDisplay({notes}) {
+function NoteDisplay({ notes }) {
     if (!Array.isArray(notes)) {
-        // change to blank starting note if no previous note data exists (new user)
-        return <div>Loading...</div>; // Show loading message if notes is not an array
+        return <div>Loading...</div>;
     }
-    return(
+
+    return (
         <div className='notes'>
-            {notes.map((note) => (
-                <div className='note-container' key = {note.$id || note.id || Math.random()}>
-                    <NoteCard note = {note}  />
-                </div>
-            ))}
+            {notes.map((note, index) => {
+                const key = note?.$id || note?.id || index;
+
+                //const isBson = note instanceof Uint8Array || note instanceof ArrayBuffer;
+
+                return (
+                    <div className='note-container' key={key}>
+                            <NoteCard note={note} />
+                    </div>
+                );
+            })}
             <button className='new-note'>+</button>
         </div>
     );
 }
 
 export default NoteDisplay;
-
