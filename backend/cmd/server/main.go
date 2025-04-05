@@ -18,6 +18,16 @@ import (
 func main() {
 	var address = "localhost:9010"
 
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
+
+	uri := os.Getenv("MONGO_URI")
+	dbName := os.Getenv("MONGO_DB")
+
+	db.InitMongoDB(uri, dbName) //Need to change once website is hosted
+
 	r := mux.NewRouter()
 	routes.TestRoutes(r)
 
@@ -35,17 +45,4 @@ func main() {
 
 	fmt.Println("Server listening on port,", address)
 	log.Fatal(http.ListenAndServe(address, corsHandler))
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatal("Error loading .env file")
-	}
-
-	uri := os.Getenv("MONGO_URI")
-	dbName := os.Getenv("MONGO_DB")
-
-	db.InitMongoDB(uri, dbName) //Need to change once website is hosted
-
-	//routes.TestRoutes(r)
-	fmt.Println("server listening...")
-	log.Fatal(http.ListenAndServe("localhost:9010", r))
 }
