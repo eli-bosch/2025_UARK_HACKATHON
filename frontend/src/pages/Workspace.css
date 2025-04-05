@@ -1,29 +1,12 @@
-
-
 .workspace {
     display: flex;
     align-items: flex-start;
 }
 
-.notes {
-    width: 80%;
-    padding: 20px;
+.eighty {
+ width: 80%;
 }
 
-.note-container {
-    width: 30%;
-    margin-bottom: 8px;
-}
-
-.new-note {
-    width: 30%;
-    height: 40px;
-    text-align: center;
-    font-size: 30px;
-}
-
-.sidebar {
+.twenty {
     width: 20%;
-    height: 100vh;
-    background-color: gray;
 }
