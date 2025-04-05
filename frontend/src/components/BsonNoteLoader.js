@@ -1,4 +1,4 @@
-/* import { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { BSON } from 'bson';
 import NoteCard from './NoteCard';
 
@@ -24,4 +24,4 @@ const BsonNoteLoader = ({ bsonBuffer }) => {
   return <NoteCard note={note} />;
 };
 
-export default BsonNoteLoader; */
+export default BsonNoteLoader; 
