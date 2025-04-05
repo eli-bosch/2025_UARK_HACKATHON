@@ -1,6 +1,6 @@
 export async function loadNoteData(username) {
     try {
-        const response = await fetch('http://localhost:9010/note/user', {
+        const response = await fetch('http://localhost:8080/note/user', {
             method: 'POST', // POST request, not GET
             headers: {
                 'Content-Type': 'application/json'

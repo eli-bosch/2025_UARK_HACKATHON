@@ -15,12 +15,14 @@ func UserLogin(w http.ResponseWriter, r *http.Request) {
 
 	user := db.FindUserByUsername(userLogin.Username)
 	if user == nil { //User is not in the database
+		w.Header().Set("Content-Type", "pkglication/json")
 		w.WriteHeader(404)
 		w.Write(nil)
 		return
 	}
 
 	if user.Password != userLogin.Password {
+		w.Header().Set("Content-Type", "pkglication/json")
 		w.WriteHeader(401) //Username is in the db, but the passwords don't match
 		w.Write(nil)
 		return
@@ -32,6 +34,7 @@ func UserLogin(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	w.Header().Set("Content-Type", "pkglication/json")
 	w.WriteHeader(http.StatusOK)
 	w.Write(res)
 }
@@ -42,6 +45,7 @@ func UserSignUp(w http.ResponseWriter, r *http.Request) {
 
 	user := db.InsertUser(*newUser)
 	if user == nil {
+		w.Header().Set("Content-Type", "pkglication/json")
 		w.WriteHeader(401)
 		w.Write(nil)
 		return
@@ -53,6 +57,7 @@ func UserSignUp(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	w.Header().Set("Content-Type", "pkglication/json")
 	w.WriteHeader(http.StatusOK)
 	w.Write(res)
 }
@@ -66,6 +71,7 @@ func GetAllUsers(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	w.Header().Set("Content-Type", "pkglication/json")
 	w.WriteHeader(http.StatusOK)
 	w.Write(res)
 }
@@ -76,6 +82,7 @@ func DeleteUser(w http.ResponseWriter, r *http.Request) {
 
 	user := db.FindUserByUsername(delUser.Username)
 	if delUser.Password != user.Password {
+		w.Header().Set("Content-Type", "pkglication/json")
 		w.WriteHeader(401)
 		w.Write(nil)
 		return
@@ -83,6 +90,7 @@ func DeleteUser(w http.ResponseWriter, r *http.Request) {
 
 	deletedUser := db.DeleteUserAndNotes(user.ID)
 	if deletedUser == nil {
+		w.Header().Set("Content-Type", "pkglication/json")
 		w.WriteHeader(404)
 		w.Write(nil)
 		return
@@ -94,6 +102,7 @@ func DeleteUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	w.Header().Set("Content-Type", "pkglication/json")
 	w.WriteHeader(http.StatusOK)
 	w.Write(res)
 }
