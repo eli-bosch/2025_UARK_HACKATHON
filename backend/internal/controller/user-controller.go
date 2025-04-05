@@ -36,3 +36,24 @@ func UserLogin(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 	w.Write(res)
 }
+
+func UserSignUp(w http.ResponseWriter, r *http.Request) {
+	newUser := &models.User{}
+	utils.ParseBody(r, newUser)
+
+	user := db.InsertUser(*newUser)
+	if user == nil {
+		w.WriteHeader(401)
+		w.Write(nil)
+		return
+	}
+
+	res, err := json.Marshal(user)
+	if err != nil {
+		fmt.Println("Error while marshalling json body")
+		return
+	}
+
+	w.WriteHeader(http.StatusOK)
+	w.Write(res)
+}
