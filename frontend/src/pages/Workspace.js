@@ -9,9 +9,9 @@ function Workspace() {
     const [notes, setNotes] = useState([]); // State to store the notes
 
     useEffect(() => {
-        const userID = "your_user_id"; // Replace with actual user ID, probably from login or context
+        const username = "ebosch"; // Replace with actual user ID, probably from login or context
         const fetchNotes = async () => {
-            const notesData = await loadNoteData(userID); // Fetch the notes
+            const notesData = await loadNoteData(username); // Fetch the notes
             setNotes(notesData); // Update state with the loaded notes
         };
         fetchNotes();

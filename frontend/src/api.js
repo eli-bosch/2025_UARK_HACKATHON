@@ -1,8 +1,18 @@
-export async function loadNoteData(userID) {
+export async function loadNoteData(username) {
     try {
-        const response = await fetch(`http://localhost:9010/api/notes/64edc2a5cba3f93e7f7e12b6`);
-        const noteData = await response.json();
+        const response = await fetch('http://localhost:9010/note/user', {
+            method: 'POST', // POST request, not GET
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ username: username }) // Send username in the body
+        });
 
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const noteData = await response.json();
         return noteData;
     } catch (error) {
         console.error("Error loading notes:", error);
