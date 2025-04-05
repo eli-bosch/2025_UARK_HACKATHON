@@ -1,0 +1,11 @@
+.workspace {
+    display: flex;
+    align-items: flex-start;
+}
+
+.chatbar
+{
+    width: 20%;
+    height: 100vh;
+    background-color: grey;
+}

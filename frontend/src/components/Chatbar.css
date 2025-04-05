@@ -1,5 +1,5 @@
-.chatbar
+.message-area
 {
-    width: 20%;
-    height: 100vh;
+    position: absolute;
+    bottom: 0;
 }
