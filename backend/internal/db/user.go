@@ -14,10 +14,15 @@ func InsertUser(user models.User) *models.User {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
+	if FindUserByUsername(user.Username) != nil {
+		log.Println("ERROR: username aalready present")
+		return nil
+	}
+
 	user.ID = primitive.NewObjectID()
 	user.CreatedAt = time.Now().UTC()
 	user.UpdatedAt = time.Now().UTC()
-	user.CurrentNotes = []primitive.ObjectID{} // ✅ right here
+	user.CurrentNotes = []primitive.ObjectID{}
 
 	collection := Client.Database(dbName).Collection("users")
 	_, err := collection.InsertOne(ctx, user)
