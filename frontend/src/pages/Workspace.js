@@ -2,19 +2,12 @@ import React from 'react';
 import '../General.css';
 import './Workspace.css';
 import {fakeData as notes} from '../assets/fakeData.js';
-import NoteCard from '../components/NoteCard';
+import NoteDisplay from '../components/NoteDisplay';
 
 function Workspace() {
     return (
         <div className='workspace'>
-            <div className='notes'>
-                {notes.map((note) => (
-                    <div className='note-container'>
-                        <NoteCard note = {note} key = {note.$id} />
-                    </div>
-                ))}
-                <button className='new-note'>+</button>
-            </div>
+            <NoteDisplay notes={notes}/>
             <div className='sidebar'>
                 <h1>Title</h1>
                 <button>Open</button>

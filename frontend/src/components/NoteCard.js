@@ -1,22 +1,3 @@
-// import './NoteCard.css'
-
-// const NoteCard = ({ note }) => {
-//     const header = JSON.parse(note.header);
-//     const body = JSON.parse(note.body);
- 
-//     return (
-//         <div className='note'>
-//             <h2 className='header'>
-//                 {header}
-//             </h2>
-//             <p className='body'>  
-//                 {body}
-//             </p>
-//         </div>
-//     );
-// };
-
-// export default NoteCard;
 import './NoteCard.css';
 import { useEffect, useRef, useState } from "react";
 // import Trash from "../icons/Trash";
