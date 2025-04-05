@@ -7,6 +7,7 @@ import NoteCard from '../components/NoteCard';
 function Workspace() {
     return (
         <div className='workspace'>
+            
             <div className='notes'>
                 {notes.map((note) => (
                     <div className='note-container'>
