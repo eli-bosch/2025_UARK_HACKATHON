@@ -15,8 +15,9 @@ func InsertUser(user models.User) *models.User {
 	defer cancel()
 
 	user.ID = primitive.NewObjectID()
-	user.CreatedAt = time.Now().AddDate(time.Now().Year(), int(time.Now().Month()), time.Now().Day())
-	user.UpdatedAt = time.Now().AddDate(time.Now().Year(), int(time.Now().Month()), time.Now().Day())
+	user.CreatedAt = time.Now().UTC()
+	user.UpdatedAt = time.Now().UTC()
+	user.CurrentNotes = []primitive.ObjectID{} // ✅ right here
 
 	collection := Client.Database(dbName).Collection("users")
 	_, err := collection.InsertOne(ctx, user)
