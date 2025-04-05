@@ -1,27 +1,27 @@
 import './NoteCard.css';
 import { useEffect, useRef, useState } from "react";
 // import Trash from "../icons/Trash";
-import { setNewOffset, autoGrow, setZIndex, bodyParser } from "../utils";
+import { autoGrow, bodyParser } from "../utils";
 // import { db } from "../appwrite/databases";
 import Spinner from "../icons/Spinner";
 import DeleteButton from "../components/DeleteButton";
-import { useContext } from "react";
+// import { useContext } from "react";
 // import { NotesContext } from "../context/NotesContext";
 
 const NoteCard = ({ note }) => {
     const cardRef = useRef(null);
 
-    let colors = {};
+    //let colors = {};
     let header = "";
 
-    try {
+    /* try {
     colors = note.colors ? JSON.parse(note.colors) : {};
     } catch (err) {
     console.error("Invalid colors JSON", err);
-    }
+    } */
 
     try {
-    header = note.header ? JSON.parse(note.header) : "";
+    header = note.Header;
     } catch (err) {
     console.error("Invalid header JSON", err);
     }
@@ -31,7 +31,7 @@ const NoteCard = ({ note }) => {
 
     const [saving, setSaving] = useState(false);
     const keyUpTimer = useRef(null);
-    const body = bodyParser(note.body);
+    const body = bodyParser(note.Body);
 
     const textAreaRef = useRef(null);
     const headerAreaRef = useRef(null);
