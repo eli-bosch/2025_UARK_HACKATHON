@@ -6,7 +6,7 @@ function Chatbar()
 {
     return(
         <div>
-            <h1>Chat Log</h1>
+            <h1 className='chatbar-label'>Chat Log</h1>
             {messages.map((message) => (
                 <p className='message-container'>
                     {JSON.parse(message.sender) + ": " + JSON.parse(message.content)}

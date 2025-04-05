@@ -12,11 +12,15 @@ function SharedWorkspace() {
             <div className='chatbar'>
                 <Chatbar/>
             </div>
-            <div className='sixty'>
-                <NoteDisplay notes={notes}/>
-                <NoteDisplay notes={notes}/>
+            <div className='notes-section'>
+                <div className='user-notes'>
+                    <NoteDisplay notes={notes}/>
+                </div>
+                <div className='guest-notes'>
+                    <NoteDisplay notes={notes}/>
+                </div>
             </div>
-            <div className='twenty'>
+            <div className='summary-sidebar'>
                 <Sidebar/>
             </div>
         </div>

@@ -1,5 +1,6 @@
 import './Sidebar.css';
 import { useEffect, useRef, useState } from "react";
+import { autoGrow} from "../utils";
 
 function Sidebar() {
     const [saving, setSaving] = useState(false);
@@ -39,8 +40,13 @@ function Sidebar() {
                 className='workspace-title'
                 ref={titleRef}
             />
-            <button className='open-connection'>Open</button>
+            <textarea  
+                className='workplace-description'
+                type='text'
+                placeholder='A short description of your workplace'
+            />
             <button className='new-note'>+ New Note +</button>
+            <button className='open-connection'>Go Public</button>
         </div>
     );
 }

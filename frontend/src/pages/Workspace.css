@@ -4,9 +4,18 @@
 }
 
 .eighty {
- width: 80%;
+    width: 80%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    max-height: 100vh;
 }
 
 .twenty {
     width: 20%;
 }
+
+/*.notes
+{
+    column-count: 3;
+    column-gap: 6px;
+} */

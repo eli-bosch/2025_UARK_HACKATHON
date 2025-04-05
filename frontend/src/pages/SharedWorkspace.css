@@ -1,11 +1,37 @@
 .workspace {
     display: flex;
     align-items: flex-start;
+    background-color: white;
 }
 
 .chatbar
 {
     width: 20%;
     height: 100vh;
-    background-color: grey;
+    border-right: 1px solid;
+    border-color: #aaaaaa;
+}
+
+.notes-section
+{
+    columns: 2;
+    width: 60%;
+}
+
+.summary-sidebar
+{
+    margin-left: auto;
+    width: 20%;
+}
+
+.user-notes, .guest-notes
+{
+    overflow-y: auto;
+    overflow-x: hidden;
+    max-height: 100vh;
+}
+
+.open-connection, .new-note
+{
+    background-color: #0386c7;
 }

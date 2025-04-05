@@ -10,10 +10,6 @@
     background-color: red;
 }
 
-.body {
-    
-}
-
 .card{
     width: 100%;
     border-radius: 5px;
@@ -29,23 +25,20 @@
   }
   
   .card-header {
-    background-color: #9bd1de;
     border-radius: 5px 5px 0 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 5px;
-    background-color: lightblue;
+    background-color: #0386c7;
   }
 
   .card-header input{
     background-color: inherit;
     border: none;
-    width: 70%;
-    resize: none;
-    font-size: 25px;
-    font-weight: 600;
-    color: black;
+    width: 100%;
+    font-size: 1.5vw;
+    color: white;
     text-align: center;
   }
 

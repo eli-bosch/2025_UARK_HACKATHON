@@ -19,13 +19,15 @@ function SubmitTextOnEnter() {
 
   return (
     <div>
+        <p className='chatbox-label'>Chatbox</p>
       <textarea
+        className='chatbox'
         value={value}
         onChange={(e) => setValue(e.target.value)}
         onKeyDown={handleKeyDown}
         rows={4}
         placeholder="Enter message here"
-        style={{ width: '283px', padding: '8px' }}
+        style={{ width: '330px', padding: '8px', }}
       />
     </div>
   );
