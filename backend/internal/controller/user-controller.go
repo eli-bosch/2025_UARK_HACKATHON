@@ -2,7 +2,6 @@ package controller
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 
 	"github.com/eli-bosch/2025_UARK_HACKATHON/internal/db"
@@ -29,7 +28,7 @@ func UserLogin(w http.ResponseWriter, r *http.Request) {
 
 	res, err := json.Marshal(user)
 	if err != nil {
-		fmt.Println("Error while marshalling json body")
+		http.Error(w, "Failed to marshal notes", http.StatusInternalServerError)
 		return
 	}
 
@@ -50,7 +49,7 @@ func UserSignUp(w http.ResponseWriter, r *http.Request) {
 
 	res, err := json.Marshal(user)
 	if err != nil {
-		fmt.Println("Error while marshalling json body")
+		http.Error(w, "Failed to marshal notes", http.StatusInternalServerError)
 		return
 	}
 
@@ -63,7 +62,7 @@ func GetAllUsers(w http.ResponseWriter, r *http.Request) {
 
 	res, err := json.Marshal(users)
 	if err != nil {
-		fmt.Println("Errors while marshalling json body")
+		http.Error(w, "Failed to marshal notes", http.StatusInternalServerError)
 		return
 	}
 
@@ -74,11 +73,6 @@ func GetAllUsers(w http.ResponseWriter, r *http.Request) {
 func DeleteUser(w http.ResponseWriter, r *http.Request) {
 	delUser := &models.User{}
 	utils.ParseBody(r, delUser)
-	if delUser == nil {
-		w.WriteHeader(400)
-		w.Write(nil)
-		return
-	}
 
 	user := db.FindUserByUsername(delUser.Username)
 	if delUser.Password != user.Password {
@@ -96,7 +90,7 @@ func DeleteUser(w http.ResponseWriter, r *http.Request) {
 
 	res, err := json.Marshal(deletedUser)
 	if err != nil {
-		fmt.Println("Errors while marshalling json body")
+		http.Error(w, "Failed to marshal notes", http.StatusInternalServerError)
 		return
 	}
 

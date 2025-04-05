@@ -14,16 +14,12 @@ func InsertNote(userID primitive.ObjectID, note models.Note) *models.Note {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
-	db := Client.Database(dbName)
-	notesColl := db.Collection("notes")
-	usersColl := db.Collection("users")
-
 	now := time.Now().UTC()
 	note.ID = primitive.NewObjectID()
 	note.CreatedAt = now
 	note.UpdatedAt = now
 
-	_, err := notesColl.InsertOne(ctx, note)
+	_, err := noteCollection.InsertOne(ctx, note)
 	if err != nil {
 		log.Println("InsertNote error:", err)
 		return nil
@@ -34,11 +30,11 @@ func InsertNote(userID primitive.ObjectID, note models.Note) *models.Note {
 			"current_notes": note.ID,
 		},
 	}
-	_, err = usersColl.UpdateByID(ctx, userID, update)
+	_, err = userCollection.UpdateByID(ctx, userID, update)
 	if err != nil {
 		log.Println("Failed to update user's CurrentNotes:", err)
 
-		notesColl.DeleteOne(ctx, bson.M{"_id": note.ID})
+		noteCollection.DeleteOne(ctx, bson.M{"_id": note.ID})
 		return nil
 	}
 
@@ -66,9 +62,6 @@ func UpdateNote(noteID primitive.ObjectID, newNote models.Note) *models.Note {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
-	db := Client.Database(dbName)
-	notesColl := db.Collection("notes")
-
 	// Set update fields
 	update := bson.M{
 		"$set": bson.M{
@@ -80,7 +73,7 @@ func UpdateNote(noteID primitive.ObjectID, newNote models.Note) *models.Note {
 
 	// Find the note and update it in one step
 	var updatedNote models.Note
-	err := notesColl.FindOneAndUpdate(
+	err := noteCollection.FindOneAndUpdate(
 		ctx,
 		bson.M{"_id": noteID},
 		update,

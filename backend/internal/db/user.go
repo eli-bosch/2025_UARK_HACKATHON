@@ -137,3 +137,34 @@ func DeleteAllUsers() {
 
 	log.Printf("Deleted %d users\n", result.DeletedCount)
 }
+
+// Updates User
+func UpdateUser(username string, newUser models.User) *models.User {
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	// Set update fields
+	update := bson.M{
+		"$set": bson.M{
+			"password":      newUser.Password,
+			"current_notes": newUser.CurrentNotes,
+			"updated_at":    time.Now().UTC(),
+		},
+	}
+
+	// Find the note and update it in one step
+	var updatedUser models.User
+	err := userCollection.FindOneAndUpdate(
+		ctx,
+		bson.M{"username": username},
+		update,
+	).Decode(&updatedUser)
+
+	if err != nil {
+		log.Println("UpdateUser error:", err)
+		return nil
+	}
+
+	log.Printf("Updated user %s\n", updatedUser.ID.Hex())
+	return &updatedUser
+}
