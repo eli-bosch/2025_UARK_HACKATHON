@@ -2,7 +2,6 @@ package controller
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 
 	"github.com/eli-bosch/2025_UARK_HACKATHON/internal/db"
@@ -98,7 +97,7 @@ func DeleteNote(w http.ResponseWriter, r *http.Request) {
 		w.Write(nil)
 		return
 	}
-	fmt.Println("MADE IT HERE")
+
 	note := db.DeleteNote(delNote.ID, user.ID)
 	if note == nil {
 		w.WriteHeader(404)

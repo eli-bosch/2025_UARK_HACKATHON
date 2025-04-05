@@ -88,34 +88,25 @@ func UpdateNote(noteID primitive.ObjectID, newNote models.Note) *models.Note {
 	return &updatedNote
 }
 
-func DeleteNote(userID primitive.ObjectID, noteID primitive.ObjectID) *models.Note {
+func DeleteNote(noteID primitive.ObjectID, userID primitive.ObjectID) *models.Note {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
-	db := Client.Database(dbName)
-	notesColl := db.Collection("notes")
-	usersColl := db.Collection("users")
-
-	filter := bson.M{
-		"_id":     noteID,
-		"user_id": userID,
-	}
-
 	var deletedNote models.Note
-	err := notesColl.FindOneAndDelete(ctx, filter).Decode(&deletedNote)
+	err := noteCollection.FindOneAndDelete(ctx, bson.M{"_id": noteID}).Decode(&deletedNote)
 	if err != nil {
-		log.Println("DeleteNote error (not found or doesn't belong to user):", err)
+		log.Println("DeleteNote error (not found):", err)
 		return nil
 	}
 
-	update := bson.M{
-		"$pull": bson.M{
-			"current_notes": noteID,
-		},
-	}
-	_, err = usersColl.UpdateOne(ctx, bson.M{"_id": userID}, update)
+	// Step 2: Remove noteID from user's current_notes
+	_, err = userCollection.UpdateOne(
+		ctx,
+		bson.M{"_id": userID},
+		bson.M{"$pull": bson.M{"current_notes": noteID}},
+	)
 	if err != nil {
-		log.Println("Failed to update user's CurrentNotes array:", err)
+		log.Println("Failed to remove note ID from user's CurrentNotes:", err)
 	}
 
 	log.Printf("Deleted note %s and updated user %s\n", noteID.Hex(), userID.Hex())
