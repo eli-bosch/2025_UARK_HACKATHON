@@ -1,7 +1,7 @@
 let socket 
 
 function initWebSocket(userID = "sampleUSER") {
-    socket = new WebSocket ('ws://localhost:9010/ws')
+    socket = new WebSocket ('ws://localhost:8080/ws')
 
     socket.onopen = () => {
         console.log('WebSocket connection established')

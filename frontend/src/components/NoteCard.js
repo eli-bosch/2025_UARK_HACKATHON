@@ -11,12 +11,26 @@ import { useContext } from "react";
 const NoteCard = ({ note }) => {
     const cardRef = useRef(null);
 
+    let colors = {};
+    let header = "";
+
+    try {
+    colors = note.colors ? JSON.parse(note.colors) : {};
+    } catch (err) {
+    console.error("Invalid colors JSON", err);
+    }
+
+    try {
+    header = note.header ? JSON.parse(note.header) : "";
+    } catch (err) {
+    console.error("Invalid header JSON", err);
+    }
+
+
     // const { setSelectedNote } = useContext(NotesContext);
 
     const [saving, setSaving] = useState(false);
     const keyUpTimer = useRef(null);
-    const colors = JSON.parse(note.colors);
-    const header = JSON.parse(note.header);
     const body = bodyParser(note.body);
 
     const textAreaRef = useRef(null);

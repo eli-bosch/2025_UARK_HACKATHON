@@ -8,8 +8,8 @@ function NoteDisplay({notes}) {
     return(
         <div className='notes'>
             {notes.map((note) => (
-                <div className='note-container'>
-                    <NoteCard note = {note} key = {note.$id} />
+                <div className='note-container' key = {note.$id || note.id || Math.random()}>
+                    <NoteCard note = {note}  />
                 </div>
             ))}
             <button className='new-note'>+</button>

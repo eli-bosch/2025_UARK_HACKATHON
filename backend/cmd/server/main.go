@@ -17,7 +17,7 @@ import (
 )
 
 var (
-	address     = "localhost:9010"
+	address     = "localhost:8080"
 	corsHandler http.Handler
 )
 

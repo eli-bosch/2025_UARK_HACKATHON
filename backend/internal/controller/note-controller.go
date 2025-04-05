@@ -32,6 +32,7 @@ func GetUserNotes(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	w.Header().Set("Content-Type", "pkglication/json")
 	w.WriteHeader(http.StatusOK)
 	w.Write(res)
 }
@@ -59,6 +60,7 @@ func CreateNote(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	w.Header().Set("Content-Type", "pkglication/json")
 	w.WriteHeader(http.StatusOK)
 	w.Write(res)
 }
@@ -69,6 +71,7 @@ func UpdateNote(w http.ResponseWriter, r *http.Request) {
 
 	note := db.UpdateNote(updatedNote.ID, *updatedNote)
 	if note == nil {
+		w.Header().Set("Content-Type", "pkglication/json")
 		w.WriteHeader(404)
 		w.Write(nil)
 		return
@@ -80,6 +83,7 @@ func UpdateNote(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	w.Header().Set("Content-Type", "pkglication/json")
 	w.WriteHeader(http.StatusOK)
 	w.Write(res)
 }
@@ -93,6 +97,7 @@ func DeleteNote(w http.ResponseWriter, r *http.Request) {
 
 	user := db.FindUserByUsername(userName)
 	if user == nil {
+		w.Header().Set("Content-Type", "pkglication/json")
 		w.WriteHeader(404)
 		w.Write(nil)
 		return
@@ -100,6 +105,7 @@ func DeleteNote(w http.ResponseWriter, r *http.Request) {
 
 	note := db.DeleteNote(delNote.ID, user.ID)
 	if note == nil {
+		w.Header().Set("Content-Type", "pkglication/json")
 		w.WriteHeader(404)
 		w.Write(nil)
 		return
@@ -111,6 +117,7 @@ func DeleteNote(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	w.Header().Set("Content-Type", "pkglication/json")
 	w.WriteHeader(http.StatusOK)
 	w.Write(res)
 }
