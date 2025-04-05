@@ -2,7 +2,6 @@ package controller
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 
 	"github.com/eli-bosch/2025_UARK_HACKATHON/internal/db"
@@ -11,21 +10,24 @@ import (
 )
 
 func GetUserNotes(w http.ResponseWriter, r *http.Request) {
-	user := &models.User{}
-	utils.ParseBody(r, user)
+	userReq := &models.User{}
+	utils.ParseBody(r, userReq)
 
-	fmt.Println("objID: ", user.ID)
+	user := db.FindUserByUsername(userReq.Username)
+	if user == nil {
+		http.Error(w, "User not found", http.StatusNotFound)
+		return
+	}
 
 	notes := db.FindNotesbyUser(user.ID)
 	if notes == nil {
-		w.WriteHeader(404)
-		w.Write(nil)
+		http.Error(w, "No notes found for user", http.StatusNotFound)
 		return
 	}
 
 	res, err := json.Marshal(notes)
 	if err != nil {
-		fmt.Println("Error while marshalling json body")
+		http.Error(w, "Failed to marshal notes", http.StatusInternalServerError)
 		return
 	}
 

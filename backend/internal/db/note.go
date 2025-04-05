@@ -46,6 +46,22 @@ func InsertNote(userID primitive.ObjectID, note models.Note) *models.Note {
 	return &note
 }
 
+func FindNoteByID(noteID primitive.ObjectID) *models.Note {
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	collection := Client.Database(dbName).Collection("notes")
+
+	var note models.Note
+	err := collection.FindOne(ctx, bson.M{"_id": noteID}).Decode(&note)
+	if err != nil {
+		log.Println("FindUserByID error:", err)
+		return nil
+	}
+
+	return &note
+}
+
 func UpdateNote(noteID primitive.ObjectID, newNote models.Note) *models.Note {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()

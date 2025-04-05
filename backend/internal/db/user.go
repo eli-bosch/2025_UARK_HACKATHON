@@ -72,22 +72,32 @@ func FindUserByUsername(username string) *models.User {
 	return &user
 }
 
-func FindNotesbyUser(userID primitive.ObjectID) *[]models.Note {
+func FindUserByID(userID primitive.ObjectID) *models.User {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
-	collection := Client.Database(dbName).Collection("notes")
-	cursor, err := collection.Find(ctx, bson.M{"user_id": userID})
+	collection := Client.Database(dbName).Collection("users")
+
+	var user models.User
+	err := collection.FindOne(ctx, bson.M{"_id": userID}).Decode(&user)
 	if err != nil {
-		log.Println("FindNotesByUser error:", err)
+		log.Println("FindUserByID error:", err)
 		return nil
 	}
-	defer cursor.Close(ctx)
 
-	var notes []models.Note
-	if err := cursor.All(ctx, &notes); err != nil {
-		log.Println("Cursor decode error:", err)
-		return nil
+	return &user
+}
+
+func FindNotesbyUser(userID primitive.ObjectID) *[]models.Note {
+	user := FindUserByID(userID)
+	length := len(user.CurrentNotes)
+
+	notes := make([]models.Note, length)
+
+	for index, noteID := range user.CurrentNotes {
+		note := FindNoteByID(noteID)
+
+		notes[index] = *note
 	}
 
 	return &notes
