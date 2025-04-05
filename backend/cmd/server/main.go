@@ -28,6 +28,7 @@ func main() {
 	dbName := os.Getenv("MONGO_DB")
 
 	db.InitMongoDB(uri, dbName) //Need to change once website is hosted
+	test()
 
 	r := mux.NewRouter()
 	routes.RegisterUserRoutes(r)
@@ -58,4 +59,11 @@ func insertTestingData() {
 	}
 
 	fmt.Printf("SUCCESS!")
+}
+
+func test() {
+	users := db.FindAllUsers()
+	for index, user := range *users {
+		fmt.Printf("%v. %v", index, user)
+	}
 }

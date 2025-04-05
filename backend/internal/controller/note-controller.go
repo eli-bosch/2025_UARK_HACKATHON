@@ -7,11 +7,14 @@ import (
 
 	"github.com/eli-bosch/2025_UARK_HACKATHON/internal/db"
 	"github.com/eli-bosch/2025_UARK_HACKATHON/internal/models"
+	"github.com/eli-bosch/2025_UARK_HACKATHON/internal/utils"
 )
 
 func GetUserNotes(w http.ResponseWriter, r *http.Request) {
 	user := &models.User{}
 	utils.ParseBody(r, user)
+
+	fmt.Println("objID: ", user.ID)
 
 	notes := db.FindNotesbyUser(user.ID)
 	if notes == nil {
