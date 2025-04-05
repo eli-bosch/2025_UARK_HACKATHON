@@ -1,4 +1,3 @@
-import BsonNoteLoader from "./BsonNoteLoader";
 import NoteCard from "./NoteCard";
 
 function NoteDisplay({ notes }) {
@@ -11,15 +10,11 @@ function NoteDisplay({ notes }) {
             {notes.map((note, index) => {
                 const key = note?.$id || note?.id || index;
 
-                const isBson = note instanceof Uint8Array || note instanceof ArrayBuffer;
+                //const isBson = note instanceof Uint8Array || note instanceof ArrayBuffer;
 
                 return (
                     <div className='note-container' key={key}>
-                        {isBson ? (
-                            <BsonNoteLoader bsonBuffer={note} />
-                        ) : (
                             <NoteCard note={note} />
-                        )}
                     </div>
                 );
             })}
