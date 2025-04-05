@@ -1,9 +1,14 @@
 import './App.css';
+import { useEffect } from 'react';
+import { initWebSocket, sendMessageToServer } from './ws'; 
 
 function App() {
+  useEffect(() => {
+    initWebSocket(); 
+  }, [])
 
-  const sendPostRequest = async () => {
-    try {
+ /* const sendPostRequest = async () => {
+     try {
         const res = await fetch("http://localhost:9010/test", {
           method: "POST",
           headers: {
@@ -19,13 +24,15 @@ function App() {
       } catch (error) {
         console.error('Error during fetch:', error)
       }
-    };
+    }; */
       
 
   return (
     <div>
-      <h1>Go POST Test</h1>
-      <button onClick={sendPostRequest}>SEND POST</button>
+      <h1>WebSocket Test</h1>
+      <input type="text" id="chatInput" placeholder="Type a message" />
+      <button onClick={sendMessageToServer}>Send</button>
+      <ul id="messages"></ul>
     </div>
   );
 }
