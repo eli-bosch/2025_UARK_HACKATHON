@@ -1,0 +1,12 @@
+.notes {
+    padding: 20px;
+    column-count: 3;
+    column-gap: 6px;
+}
+
+.note-container {
+    width: 100%;
+    padding-bottom: 6px;
+    display: block;
+    break-inside: avoid;
+}

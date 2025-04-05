@@ -47,4 +47,36 @@ export const fakeData = [
         }),
         position: JSON.stringify({ x: 605, y: 500 }),
     },
+    {
+        $id: 4,
+        header: JSON.stringify(
+            'Title'
+        ),
+        body: JSON.stringify(
+            'Resources:\n- Book: "You Don\'t Know JS: Scope & Closures" by Kyle Simpson.\n\n- Online Course: "JavaScript Patterns" on Udemy.\n\n- Articles:\n"Understanding JavaScript Closures" on Medium.\n\n"Mastering JavaScript Modules" on Dev.to.'
+        ),
+        colors: JSON.stringify({
+            id: "color-yellow",
+            colorHeader: "#FFEFBE",
+            colorBody: "#FFF5DF",
+            colorText: "#18181A",
+        }),
+        position: JSON.stringify({ x: 605, y: 500 }),
+    },
+    {
+        $id: 5,
+        header: JSON.stringify(
+            'Title'
+        ),
+        body: JSON.stringify(
+            'Resources:\n- Book: "You Don\'t Know JS: Scope & Closures" by Kyle Simpson.\n\n- Online Course: "JavaScript Patterns" on Udemy.\n\n- Articles:\n"Understanding JavaScript Closures" on Medium.\n\n"Mastering JavaScript Modules" on Dev.to.'
+        ),
+        colors: JSON.stringify({
+            id: "color-yellow",
+            colorHeader: "#FFEFBE",
+            colorBody: "#FFF5DF",
+            colorText: "#18181A",
+        }),
+        position: JSON.stringify({ x: 605, y: 500 }),
+    },
 ];

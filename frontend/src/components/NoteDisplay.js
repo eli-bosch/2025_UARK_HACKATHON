@@ -1,4 +1,5 @@
 import NoteCard from "./NoteCard";
+import './NoteDisplay.css';
 
 function NoteDisplay({notes}) {
     return(
@@ -8,7 +9,6 @@ function NoteDisplay({notes}) {
                     <NoteCard note = {note} key = {note.$id} />
                 </div>
             ))}
-            <button className='new-note'>+</button>
         </div>
     );
 }

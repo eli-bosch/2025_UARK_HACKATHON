@@ -3,14 +3,16 @@ import '../General.css';
 import './Workspace.css';
 import {fakeData as notes} from '../assets/fakeData.js';
 import NoteDisplay from '../components/NoteDisplay';
+import Sidebar from '../components/Sidebar.js';
 
 function Workspace() {
     return (
         <div className='workspace'>
-            <NoteDisplay notes={notes}/>
-            <div className='sidebar'>
-                <h1>Title</h1>
-                <button>Open</button>
+            <div className='eighty'>
+                <NoteDisplay notes={notes}/>
+            </div>
+            <div className='twenty'>
+                <Sidebar/>
             </div>
         </div>
     );

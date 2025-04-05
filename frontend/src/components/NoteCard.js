@@ -15,7 +15,6 @@ const NoteCard = ({ note }) => {
 
     const [saving, setSaving] = useState(false);
     const keyUpTimer = useRef(null);
-    const colors = JSON.parse(note.colors);
     const header = JSON.parse(note.header);
     const body = bodyParser(note.body);
 
@@ -49,6 +48,7 @@ const NoteCard = ({ note }) => {
         keyUpTimer.current = setTimeout(() => {
             console.log("Timer started");
             saveData("body", textAreaRef.current.value);
+            saveData("header", headerAreaRef.current.value);
         }, 2000);
     };
 
