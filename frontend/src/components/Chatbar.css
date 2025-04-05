@@ -1,5 +1,38 @@
-.chatbar
+.message-area
 {
-    width: 20%;
-    height: 100vh;
+    position: absolute;
+    bottom: 0;
+    margin: 5px;
 }
+
+.chatbar-label
+{
+    text-align: center;
+    font-size: 1.5vw;
+    color: black;
+    border-bottom: 1px solid;
+    border-color: #aaaaaa;
+    font-weight: 500;
+}
+
+.chatbox-label
+{
+    color: black;
+    font-size: 1vw;
+}
+
+.chatbox
+{
+    background-color: white;
+    color-scheme: none;
+    border-radius: 5px;
+    border: 1px solid #aaaaaa;
+}
+
+.message-container
+{
+    font-size: 1vw;
+    color: black;
+    margin: 5px;
+}
+

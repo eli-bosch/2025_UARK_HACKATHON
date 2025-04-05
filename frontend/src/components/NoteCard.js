@@ -63,6 +63,7 @@ const NoteCard = ({ note }) => {
         keyUpTimer.current = setTimeout(() => {
             console.log("Timer started");
             saveData("body", textAreaRef.current.value);
+            saveData("header", headerAreaRef.current.value);
         }, 2000);
     };
 

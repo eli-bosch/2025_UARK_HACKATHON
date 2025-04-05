@@ -4,6 +4,7 @@ import './Workspace.css';
 import { loadNoteData } from '../api.js';
 import NoteDisplay from '../components/NoteDisplay';
 import { useState, useEffect } from 'react';
+import Sidebar from '../components/Sidebar.js';
 
 function Workspace() {
     const [notes, setNotes] = useState([]); // State to store the notes
@@ -19,10 +20,11 @@ function Workspace() {
 
     return (
         <div className='workspace'>
-            <NoteDisplay notes={notes}/>
-            <div className='sidebar'>
-                <h1>Title</h1>
-                <button>Open</button>
+            <div className='eighty'>
+                <NoteDisplay notes={notes}/>
+            </div>
+            <div className='twenty'>
+                <Sidebar/>
             </div>
         </div>
     );
