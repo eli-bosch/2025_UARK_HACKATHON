@@ -67,7 +67,7 @@ func FindUserByUsername(username string) *models.User {
 	return &user
 }
 
-func FindNotesbyUser(userID primitive.ObjectID) (*[]models.Note, error) {
+func FindNotesbyUser(userID primitive.ObjectID) *[]models.Note {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
@@ -75,17 +75,17 @@ func FindNotesbyUser(userID primitive.ObjectID) (*[]models.Note, error) {
 	cursor, err := collection.Find(ctx, bson.M{"user_id": userID})
 	if err != nil {
 		log.Println("FindNotesByUser error:", err)
-		return nil, err
+		return nil
 	}
 	defer cursor.Close(ctx)
 
 	var notes []models.Note
 	if err := cursor.All(ctx, &notes); err != nil {
 		log.Println("Cursor decode error:", err)
-		return nil, err
+		return nil
 	}
 
-	return &notes, nil
+	return &notes
 }
 
 func FindAllUsers() *[]models.User {

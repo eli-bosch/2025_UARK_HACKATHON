@@ -6,36 +6,26 @@ import (
 	"net/http"
 
 	"github.com/eli-bosch/2025_UARK_HACKATHON/internal/db"
-	"github.com/gorilla/mux"
-	"go.mongodb.org/mongo-driver/bson/primitive"
+	"github.com/eli-bosch/2025_UARK_HACKATHON/internal/models"
 )
 
-func GetUserNotesHandler(w http.ResponseWriter, r *http.Request) {
-	vars := mux.Vars(r)
-	userIDStr := vars["user_id"]
+func GetUserNotes(w http.ResponseWriter, r *http.Request) {
+	user := &models.User{}
+	utils.ParseBody(r, user)
 
-	userID, err := primitive.ObjectIDFromHex(userIDStr)
-	if err != nil {
-		http.Error(w, "Invalid user ID", http.StatusBadRequest)
+	notes := db.FindNotesbyUser(user.ID)
+	if notes == nil {
+		w.WriteHeader(404)
+		w.Write(nil)
 		return
 	}
 
-	/* objectID, err := primitive.ObjectIDFromHex(userID)
+	res, err := json.Marshal(notes)
 	if err != nil {
-		http.Error(w, "Invalid User ID format", http.StatusBadRequest)
-		return
-	} */
-
-	notes, err := db.FindNotesbyUser(userID)
-	if err != nil {
-		http.Error(w, "Failed to get notes", http.StatusInternalServerError)
+		fmt.Println("Error while marshalling json body")
 		return
 	}
 
-	// log the notes to check what we're sending
-    fmt.Println("Fetched Notes:", notes)
-
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(notes)
+	w.WriteHeader(http.StatusOK)
+	w.Write(res)
 }
-

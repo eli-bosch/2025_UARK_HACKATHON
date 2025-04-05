@@ -12,5 +12,5 @@ var TestRoutes = func(router *mux.Router) {
 
 var NoteRoutes = func(router *mux.Router) {
 	//router.HandleFunc("/api/notes/{userID}", controller.GetUserNotesHandler).Methods("GET")
-	router.HandleFunc("/api/notes/{user_id}", controller.GetUserNotesHandler).Methods("GET")
+	router.HandleFunc("/api/notes/user", controller.GetUserNotes).Methods("GET")
 }
