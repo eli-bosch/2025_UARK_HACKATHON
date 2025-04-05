@@ -1,3 +1,4 @@
+// Connection with database
 package db
 
 import (

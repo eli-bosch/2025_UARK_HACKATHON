@@ -112,3 +112,18 @@ func DeleteNote(userID primitive.ObjectID, noteID primitive.ObjectID) *models.No
 	log.Printf("Deleted note %s and updated user %s\n", noteID.Hex(), userID.Hex())
 	return &deletedNote
 }
+
+func DeleteAllNotes() {
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	collection := Client.Database(dbName).Collection("notes")
+
+	result, err := collection.DeleteMany(ctx, bson.M{})
+	if err != nil {
+		log.Println("DeleteAllNotes error:", err)
+		return
+	}
+
+	log.Printf("Deleted %d notes\n", result.DeletedCount)
+}
