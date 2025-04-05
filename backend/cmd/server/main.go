@@ -16,9 +16,21 @@ import (
 	"github.com/joho/godotenv"
 )
 
-func main() {
-	var address = "localhost:9010"
+var (
+	address     = "localhost:9010"
+	corsHandler http.Handler
+)
 
+func main() {
+	initDatabase()
+	registerRoutes()
+
+	fmt.Println("Server listening on port,", address)
+	log.Fatal(http.ListenAndServe(address, corsHandler))
+}
+
+// Database Initialization
+func initDatabase() {
 	err := godotenv.Load()
 	if err != nil {
 		log.Fatal("Error loading .env file")
@@ -26,17 +38,18 @@ func main() {
 
 	uri := os.Getenv("MONGO_URI")
 	dbName := os.Getenv("MONGO_DB")
-
 	db.InitMongoDB(uri, dbName) //Need to change once website is hosted
-	test()
+}
 
+// Route Registration
+func registerRoutes() {
 	r := mux.NewRouter()
 	routes.RegisterUserRoutes(r)
 
 	ws.RegisterWSRoutes(r)
-	routes.NoteRoutes(r)
+	routes.RegisterNoteRoutes(r)
 
-	corsHandler := handlers.CORS(
+	corsHandler = handlers.CORS(
 		handlers.AllowedOrigins([]string{"*"}),
 		handlers.AllowedMethods([]string{
 			"GET", "POST", "PUT", "DELETE", "OPTIONS",
@@ -45,11 +58,9 @@ func main() {
 			"Content-Type", "Authorization", "Origin", "X-Requested-With",
 		}),
 	)(r)
-
-	fmt.Println("Server listening on port,", address)
-	log.Fatal(http.ListenAndServe(address, corsHandler))
 }
 
+// Testing Methods
 func insertTestingData() {
 	db.InsertUser(models.User{Username: "ebosch", Password: "secretPassword101"})
 	user := db.FindUserByUsername("ebosch")

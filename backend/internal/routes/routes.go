@@ -6,11 +6,12 @@ import (
 )
 
 var RegisterUserRoutes = func(router *mux.Router) {
-	router.HandleFunc("/user/login", controller.UserLogin).Methods("POST")
-	router.HandleFunc("/user/signup", controller.UserSignUp).Methods("POST")
+	router.HandleFunc("/user/login", controller.UserLogin).Methods("POST")     //Takes in username and password
+	router.HandleFunc("/user/signup", controller.UserSignUp).Methods("POST")   //Takes in username
+	router.HandleFunc("/user/all", controller.GetAllUsers).Methods("GET")      //takes in nothing
+	router.HandleFunc("/user/delete", controller.DeleteUser).Methods("DELETE") //takes in username and password
 }
 
-var NoteRoutes = func(router *mux.Router) {
-	//router.HandleFunc("/api/notes/{userID}", controller.GetUserNotesHandler).Methods("GET")
-	router.HandleFunc("/api/notes/user", controller.GetUserNotes).Methods("GET")
+var RegisterNoteRoutes = func(router *mux.Router) {
+	router.HandleFunc("/api/notes/user", controller.GetUserNotes).Methods("GET") //Takes in username
 }

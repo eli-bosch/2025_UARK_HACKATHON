@@ -57,3 +57,49 @@ func UserSignUp(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 	w.Write(res)
 }
+
+func GetAllUsers(w http.ResponseWriter, r *http.Request) {
+	users := db.FindAllUsers()
+
+	res, err := json.Marshal(users)
+	if err != nil {
+		fmt.Println("Errors while marshalling json body")
+		return
+	}
+
+	w.WriteHeader(http.StatusOK)
+	w.Write(res)
+}
+
+func DeleteUser(w http.ResponseWriter, r *http.Request) {
+	delUser := &models.User{}
+	utils.ParseBody(r, delUser)
+	if delUser == nil {
+		w.WriteHeader(400)
+		w.Write(nil)
+		return
+	}
+
+	user := db.FindUserByUsername(delUser.Username)
+	if delUser.Password != user.Password {
+		w.WriteHeader(401)
+		w.Write(nil)
+		return
+	}
+
+	deletedUser := db.DeleteUserAndNotes(user.ID)
+	if deletedUser == nil {
+		w.WriteHeader(404)
+		w.Write(nil)
+		return
+	}
+
+	res, err := json.Marshal(deletedUser)
+	if err != nil {
+		fmt.Println("Errors while marshalling json body")
+		return
+	}
+
+	w.WriteHeader(http.StatusOK)
+	w.Write(res)
+}

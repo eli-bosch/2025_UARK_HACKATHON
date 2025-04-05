@@ -10,22 +10,26 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
+// Insert into userCollection
 func InsertUser(user models.User) *models.User {
+	//Connects to collection
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
+	//Makes sure that there are no duplicaton
 	if FindUserByUsername(user.Username) != nil {
 		log.Println("ERROR: username aalready present")
 		return nil
 	}
 
+	//Fills out the user struct
 	user.ID = primitive.NewObjectID()
 	user.CreatedAt = time.Now().UTC()
 	user.UpdatedAt = time.Now().UTC()
 	user.CurrentNotes = []primitive.ObjectID{}
 
-	collection := Client.Database(dbName).Collection("users")
-	_, err := collection.InsertOne(ctx, user)
+	//Inserts struct into the collection
+	_, err := userCollection.InsertOne(ctx, user)
 	if err != nil {
 		log.Println("InsertUser error:", err)
 		return nil
@@ -34,22 +38,19 @@ func InsertUser(user models.User) *models.User {
 	return &user
 }
 
+// Deletes user and cascade deletes notes
 func DeleteUserAndNotes(userID primitive.ObjectID) *models.User {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
-	db := Client.Database(dbName)
-	usersColl := db.Collection("users")
-	notesColl := db.Collection("notes")
-
 	var deletedUser models.User
-	err := usersColl.FindOneAndDelete(ctx, bson.M{"_id": userID}).Decode(&deletedUser)
+	err := userCollection.FindOneAndDelete(ctx, bson.M{"_id": userID}).Decode(&deletedUser)
 	if err != nil {
 		log.Println("DeleteUser error:", err)
 		return nil
 	}
 
-	_, err = notesColl.DeleteMany(ctx, bson.M{"user_id": userID})
+	_, err = noteCollection.DeleteMany(ctx, bson.M{"user_id": userID})
 	if err != nil {
 		log.Println("Cascade delete notes error:", err)
 	}
@@ -57,13 +58,13 @@ func DeleteUserAndNotes(userID primitive.ObjectID) *models.User {
 	return &deletedUser
 }
 
+// Finds user by username
 func FindUserByUsername(username string) *models.User {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
-	collection := Client.Database(dbName).Collection("users")
 	var user models.User
-	err := collection.FindOne(ctx, bson.M{"username": username}).Decode(&user)
+	err := userCollection.FindOne(ctx, bson.M{"username": username}).Decode(&user)
 	if err != nil {
 		log.Println("FindUserByUsername error:", err)
 		return nil
@@ -72,14 +73,13 @@ func FindUserByUsername(username string) *models.User {
 	return &user
 }
 
+// Finds user by ID
 func FindUserByID(userID primitive.ObjectID) *models.User {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
-	collection := Client.Database(dbName).Collection("users")
-
 	var user models.User
-	err := collection.FindOne(ctx, bson.M{"_id": userID}).Decode(&user)
+	err := userCollection.FindOne(ctx, bson.M{"_id": userID}).Decode(&user)
 	if err != nil {
 		log.Println("FindUserByID error:", err)
 		return nil
@@ -88,6 +88,7 @@ func FindUserByID(userID primitive.ObjectID) *models.User {
 	return &user
 }
 
+// Finds the array of notes using the userID
 func FindNotesbyUser(userID primitive.ObjectID) *[]models.Note {
 	user := FindUserByID(userID)
 	length := len(user.CurrentNotes)
@@ -103,13 +104,12 @@ func FindNotesbyUser(userID primitive.ObjectID) *[]models.Note {
 	return &notes
 }
 
+// Returns all users
 func FindAllUsers() *[]models.User {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
-	collection := Client.Database(dbName).Collection("users")
-
-	cursor, err := collection.Find(ctx, bson.M{})
+	cursor, err := userCollection.Find(ctx, bson.M{})
 	if err != nil {
 		log.Println("FindAllUser erro:", err)
 	}
@@ -124,13 +124,12 @@ func FindAllUsers() *[]models.User {
 
 }
 
+// Deletes all users
 func DeleteAllUsers() {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
-	collection := Client.Database(dbName).Collection("users")
-
-	result, err := collection.DeleteMany(ctx, bson.M{})
+	result, err := userCollection.DeleteMany(ctx, bson.M{})
 	if err != nil {
 		log.Println("DeleteAllUsers error:", err)
 		return

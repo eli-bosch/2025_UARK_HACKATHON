@@ -11,8 +11,9 @@ import (
 )
 
 var (
-	Client         *mongo.Client
 	dbName         string
+	Client         *mongo.Client
+	userCollection *mongo.Collection
 	noteCollection *mongo.Collection
 )
 
@@ -29,5 +30,7 @@ func InitMongoDB(uri string, name string) {
 	dbName = name
 	log.Println("Connected to MongoDB!")
 
+	userCollection = client.Database(dbName).Collection("users")
 	noteCollection = client.Database(dbName).Collection("notes")
+
 }
