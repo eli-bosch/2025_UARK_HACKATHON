@@ -32,6 +32,7 @@ func main() {
 	routes.TestRoutes(r)
 
 	ws.RegisterWSRoutes(r)
+	routes.NoteRoutes(r)
 
 	corsHandler := handlers.CORS(
 		handlers.AllowedOrigins([]string{"*"}),
